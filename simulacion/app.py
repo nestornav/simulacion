@@ -38,16 +38,16 @@ dnumero_semanas = 100
 def index():
     return render_template(
         'index.html', media_respuesta=dmedia_respuesta,
-        desv_respuesta=ddesv_respuesta, numero_corridas=dnumero_semanas)
+        desv_respuesta=ddesv_respuesta, numero_semanas=dnumero_semanas)
 
 
 @app.route("/run_simulation",methods=["POST"])
 def run_simulation():
     media_respuesta = float(request.form["media_respuesta"])
     desv_respuesta = float(request.form["desv_respuesta"])    
-    numero_corridas = int(request.form["numero_corridas"])
+    numero_semanas = int(request.form["numero_semanas"])
 
-    resultados = sim.simulate(numero_corridas, media_respuesta, desv_respuesta)
+    resultados = sim.simulate(numero_semanas, media_respuesta, desv_respuesta)
 
     return render_template('index.html', resultados=resultados, media_respuesta=media_respuesta,
-        desv_respuesta=desv_respuesta, numero_corridas=numero_corridas, stats=stats, graphs=graphs)
+        desv_respuesta=desv_respuesta, numero_semanas=numero_semanas)
