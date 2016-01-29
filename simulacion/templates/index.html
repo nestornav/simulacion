@@ -1,0 +1,193 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Final Simulación - Ejercicio 283{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="content" style="margin-left: 10px; margin-right: 10px;">
+    <h1 class="text-info text-center">Final Simulación - Ejercicio 283</h1>
+    <div class="row">
+        <div class="col-md-3 col-md-offset-9">
+            <ul class="alert alert-info text-right" style="list-style-type: none;">
+                <li><strong>Nestor Navarro</strong> - leg.54.153</li>
+                <li><a href="mailto:nestornav@gmail.com">nestornav@gmail.com</a></li>
+                <li>2015/12/11</li>
+                <li>
+                    <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#enunciado-modal">
+                        <span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> Enunciado
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <form method="post" action="{{url_for('run_simulation')}}">
+            <div class="col-md-6">
+                <h4>Par&aacute;metros para N&uacute;mero de Trabajos por Semana</h4>
+                <label>Media</label>
+                <input id="media_respuesta" name="media_respuesta" type="number" value="{{media_respuesta}}"/>
+
+                <label>Desviaci&oacute;n</label>
+                <input id="desv_respuesta" name="desv_respuesta" type="number" value="{{desv_respuesta}}"/>
+            </div>
+
+            <div class="col-md-6">
+                <h4>Cantitdad de Semanas</h4>
+                <label>Cantidad</label>
+                <input id="numero_semanas" name="numero_semanas" type="number" value="{{numero_semanas}}"/>
+            </div>
+            <div class="col-md-3 col-md-offset-6" style="margin-top: 15px;">
+                <button class="btn btn-primary" type="submit">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Ejecutar
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<div id="enunciado-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Ejercicio 283</h4>
+        </div>
+        <div class="modal-body">
+            <p>El número de trabajos de frenos de disco llevados a cabo por el departamento de servicio de una
+            empresa de transporte durante cada una de las últimas 30 semanas se muestra en la siguiente tabla:</p>
+
+            <table class="table table-hover table-striped table-condensed">
+                <thead>
+                    <th>N&uacute;mero de trabajos de Frenos</th>
+                    <th>N&uacute;mero de Semanas</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>9</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>4</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>La capacidad del departamento para terminar los trabajos es de entre 3 y 7 por semana
+                uniformemente distribuidos. Los trabajos que no se resolvieron en la semana, pueden resolverse en
+                la semana siguiente. Sin embargo por política del departamento no puede mantenerse un trabajo
+                otra semana mas, debiendo tercerizar el trabajo a un taller independiente. El mismo, solo acepta
+                trabajos según cantidades previamente acordadas a principio del mes: 2 por $500, 4 por $950, 6 por
+                $1300, 8 por $1600. Los trabajos fuera de la cantidad pactada son aceptados a $400.
+                Determine la cantidad más conveniente a pactar con el taller, a fin de cubrir las posibles necesidades
+                del departamento.</p>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+{% if stats %}
+
+<div id="stats-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">
+                Estadísticas en <strong>{{numero_semanas}}</strong> iteraciones</h4>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li>
+                    <strong>Cantidad máxima de procesos trabajando simultáneamente: </strong>
+                    <code>{{stats["max_process"]}}</code>
+                </li>
+                <li>
+                    <strong>Demora promedio de respuesta de la base de datos: </strong>
+                    <code>{{stats["demora_promedio"]}}</code>
+                </li>
+                <li>
+                    <strong>Tiempo ocioso de la base de datos: </strong>
+                    <code>{{stats["tiempo_ocioso"]}}</code>
+                </li>
+                <li>
+                    <strong>Demora máxima de un proceso: </strong>
+                    <code>{{stats["demora_maxima"]}}</code>
+                </li>
+                <li>
+                    <strong>Probabilidad de que existan 8 o más procesos simultáneamente: </strong>
+                    <code>{{stats["promedio_gt8"]}}</code>
+                </li>
+            </ul>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="graficos-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">
+                Gráficos en <strong>{{numero_semanas}}</strong> iteraciones</h4>
+        </div>
+        <div class="modal-body">
+            <ul id="tabs" class="nav nav-tabs">
+                {% for g in graphs %}
+                    <li role="presentation" {% if loop.first %}class="active"{% endif %}>
+                        <a data-scope="#tab-content" onclick="tabClick(this);" href="#g{{loop.index}}">{{g.title}}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="tab-content" id="tab-content">
+            {% for g in graphs %}
+                <div id="g{{loop.index}}" class="tab-pane fade in {% if loop.first %}active{% endif %}">
+                    <svg width="100%" height="400">{{g.render(is_unicode=True,disable_xml_declaration=True)|safe}}</svg>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function tabClick(elem){
+        var $a = $(elem);
+        var href = $a.attr("href");
+        $("ul#tabs > li").removeClass("active");
+        $("div#tab-content > div.tab-pane").hide();
+
+
+        $a.parents("li").addClass("active");
+        $(href).show("slow");
+        return false;
+    }
+</script>
+{% endif %}
+
+
+
+{% endblock %}
