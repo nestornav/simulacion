@@ -12,7 +12,7 @@ ResponseRow = namedtuple(
      "cantidad_trabajos_realizar_semana", "trabajos_sin_terminar_semana_acutal", "cantidad_trabajo_terciarizado"])
 
 def numero_reparaciones(mean, std):
-    return round(np.random.uniform(mean,std),0)
+    return int(np.random.uniform(mean,std))
 
 def numero_trabajos():    
     rnd = round(np.random.rand(),2)
@@ -32,9 +32,10 @@ def get_trabajos_sin_cumplir(capacidad_trabajo, trabajos_semana_anterior, trabaj
 
     if sobrante > 0:
         trabajo_a_terciarizar = sobrante
-        trabajos_actual_pendientes = trabajos_frenos_semana + sobrante
+        trabajos_actual_pendientes = trabajos_frenos_semana
     else:
-        trabajos_actual_pendientes = trabajos_frenos_semana - sobrante
+        actuales = trabajos_frenos_semana + sobrante
+        trabajos_actual_pendientes = 0 if actuales < 0 else actuales
 
     trabajos_semana = [trabajo_a_terciarizar,trabajos_actual_pendientes]
     return trabajos_semana
