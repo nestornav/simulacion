@@ -27,7 +27,7 @@
 
     <div class="row">
         <form method="post" action="{{url_for('run_simulation')}}">
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <h4>Par&aacute;metros para N&uacute;mero de Trabajos por Semana</h4>
                 <label>Media</label>
                 <input id="media_respuesta" name="media_respuesta" type="number" value="{{media_respuesta}}"/>
@@ -36,10 +36,16 @@
                 <input id="desv_respuesta" name="desv_respuesta" type="number" value="{{desv_respuesta}}"/>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <h4>Cantitdad de Semanas</h4>
                 <label>Cantidad</label>
                 <input id="numero_semanas" name="numero_semanas" type="number" value="{{numero_semanas}}"/>
+            </div>
+
+            <div class="col-md-3">
+                <h4>Pol&iacute;tica de Taller</h4>
+                <label>Número de Pol&iacute;tica</label>
+                <input id="numero_politica" name="numero_politica" type="number" value="{{numero_politica}}">
             </div>
             <div class="col-md-3 col-md-offset-6" style="margin-top: 15px;">
                 <button class="btn btn-primary" type="submit">
@@ -71,7 +77,10 @@
                     <th>Num. Trabajos Sem. Anterior</th>                    
                     <th>Trabajos a Realizar</th>
                     <th>Sobrante Sem. Actual</th>
-                    <th>Trabajos Sem. Terciriazados</th>                    
+                    <th>Trabajos Sem. Terciriazados</th> 
+                    <th>Tipo Pol&iacute;tica</th>
+                    <th>Costo Pactado</th>
+                    <th>Costo Excedente</th>
                 </tr>
             </thead>
             <tbody>
@@ -84,6 +93,9 @@
                     <td>{{resultado.cantidad_trabajos_realizar_semana}}</td>
                     <td>{{resultado.trabajos_sin_terminar_semana_acutal}}</td>
                     <td>{{resultado.cantidad_trabajo_terciarizado}}</td>
+                    <td>{{resultado.tipo_politica}}</td>
+                    <td>{{resultado.costo_politica}}</td>
+                    <td>{{resultado.costo_excedente}}</td>                                    
                 </tr>
                 {%endfor%}
             </tbody>
@@ -140,6 +152,41 @@
                 $1300, 8 por $1600. Los trabajos fuera de la cantidad pactada son aceptados a $400.
                 Determine la cantidad más conveniente a pactar con el taller, a fin de cubrir las posibles necesidades
                 del departamento.</p>
+
+            <table id="politicas" class="table table-hover table-striped table-condensed">
+                <thead>
+                    <th>N&uacute;mero de Política</th>
+                    <th>Cantidad Trabajos</th>
+                    <th>Costo ($)</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>950</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>6</td>
+                        <td>1300</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>8</td>
+                        <td>1600</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
   </div>
