@@ -40,14 +40,16 @@ def get_trabajos_sin_cumplir(capacidad_trabajo, trabajos_semana_anterior, trabaj
     trabajos_semana = [trabajo_a_terciarizar,trabajos_actual_pendientes]
     return trabajos_semana
 
-def get_costos(tipo_politica,trabajos_terciarizado):    
+def get_costos(tipo_politica,trabajos_terciarizado, costo_fuera_pactado):    
     presupuesto_taller = {
         (0, 0): 1, (2, 500): 2, (4, 950): 3, (6, 1300): 4, (8, 1600): 5 
     }    
-
-    for ite, pol in presupuesto_taller.itms():
-        if pol == tipo_politica:
-            return ite[0], ite[1] * trabajos_terciarizado
+    #import ipdb;ipdb.set_trace()
+    for ite, pol in presupuesto_taller.items():
+        if pol == tipo_politica:            
+            trabajo_excedente = ite[0] - trabajos_terciarizado
+            costo_excedente = 0 if trabajo_excedente >= 0 else costo_fuera_pactado * (trabajo_excedente * -1)
+            return ite[0], ite[1], costo_excedente
 
 def simulate(numero_corridas, media_respuesta, desv_respuesta, tipo_politica):
     trabajos_frenos_semana_rnd, trabajos_frenos_semana, trabajos_semana_actual, capacidad_trabajo  = 0, 0, 0, 0    
@@ -76,7 +78,8 @@ def simulate(numero_corridas, media_respuesta, desv_respuesta, tipo_politica):
             capacidad_trabajo = numero_reparaciones(media_respuesta,desv_respuesta)
 
             trabajo_terciarizado, sobrante_semana = get_trabajos_sin_cumplir(capacidad_trabajo,trabajos_semana_anterior,trabajos_frenos_semana)
-
+            cantidad_reparar_taller_pactado, costo_pactado, costo_total_fuera_pactado = get_costos(tipo_politica, trabajo_terciarizado, costo_fuera_pactado)
+            #print(cantidad_reparar_taller_pactado, costo_pactado, costo_total_fuera_pactado,"LALALALA")
         respuesta = ResponseRow(
                 semana=iterations + 1, frenos_semana_rnd=trabajos_frenos_semana_rnd, frenos_semana_reparar=trabajos_frenos_semana,
                 trabajos_atrasados_semana_anterior=trabajos_semana_anterior, cantidad_trabajos_realizar_semana=capacidad_trabajo,
