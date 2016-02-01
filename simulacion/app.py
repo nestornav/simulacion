@@ -51,5 +51,12 @@ def run_simulation():
 
     resultados = sim.simulate(numero_semanas, media_respuesta, desv_respuesta, numero_politica)    
 
+    stats = {
+        "promedio_costo_excedente" : sim.to_ndarray(resultados,"costo_excedente").mean(),
+        "promedio_capacidad_trabajo" : sim.to_ndarray(resultados,"cantidad_trabajos_realizar_semana").mean(),
+        "promedio_trabajos_terciarizados" : sim.to_ndarray(resultados,"cantidad_trabajo_terciarizado").mean(),
+        "cantidad_trabajos_terciarizados" : sim.to_ndarray(resultados,"cantidad_trabajo_terciarizado").sum()
+    }
+
     return render_template('index.html', resultados=resultados, media_respuesta=media_respuesta,
-        desv_respuesta=desv_respuesta, numero_semanas=numero_semanas, numero_politica=numero_politica)
+        desv_respuesta=desv_respuesta, numero_semanas=numero_semanas, numero_politica=numero_politica, stats=stats)
