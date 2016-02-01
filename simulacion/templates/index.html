@@ -79,6 +79,7 @@
                     <th>Sobrante Sem. Actual</th>
                     <th>Trabajos Sem. Terciriazados</th> 
                     <th>Tipo Pol&iacute;tica</th>
+                    <th>Cant. Pactada</th>
                     <th>Costo Pactado</th>
                     <th>Costo Excedente</th>
                 </tr>
@@ -94,6 +95,7 @@
                     <td>{{resultado.trabajos_sin_terminar_semana_acutal}}</td>
                     <td>{{resultado.cantidad_trabajo_terciarizado}}</td>
                     <td>{{resultado.tipo_politica}}</td>
+                    <td>{{resultado.cantidad_pactado_politica}}</td>
                     <td>{{resultado.costo_politica}}</td>
                     <td>{{resultado.costo_excedente}}</td>                                    
                 </tr>
@@ -187,6 +189,23 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div class="panel panel-info">
+              <div class="panel-heading">Otras políticas planteadas</div>
+   
+              <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Política 6</td>
+                        <td>Sobrante Semana Anterior</td>
+                    </tr>
+                    <tr>
+                        <td>Política 7</td>
+                        <td><p>Aleatorio de las primeras 5 políticas. Con igual probabilidad</p></td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
         </div>
     </div>
   </div>
