@@ -50,9 +50,11 @@ def run_simulation():
     numero_politica = int(request.form["numero_politica"])
 
     resultados = sim.simulate(numero_semanas, media_respuesta, desv_respuesta, numero_politica)    
+    costo_excedente = sim.to_ndarray(resultados,"costo_excedente")
 
     stats = {
-        "promedio_costo_excedente" : sim.to_ndarray(resultados,"costo_excedente").mean(),
+        "promedio_costo_excedente" : costo_excedente.mean(),
+        "promedio_costo_anual_excedentes": float((costo_excedente.sum() * 52) / len(costo_excedente)),
         "promedio_capacidad_trabajo" : sim.to_ndarray(resultados,"cantidad_trabajos_realizar_semana").mean(),
         "promedio_trabajos_terciarizados" : sim.to_ndarray(resultados,"cantidad_trabajo_terciarizado").mean(),
         "cantidad_trabajos_terciarizados" : sim.to_ndarray(resultados,"cantidad_trabajo_terciarizado").sum()
