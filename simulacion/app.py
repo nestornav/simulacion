@@ -27,7 +27,7 @@ Bootstrap(app)
 
 dmedia_respuesta = 3
 ddesv_respuesta = 7
-dnumero_semanas = 100
+dnumero_semanas = 104
 dnumero_politica = 1
 
 
@@ -53,10 +53,10 @@ def run_simulation():
     costo_excedente = sim.to_ndarray(resultados,"costo_excedente")
 
     stats = {
-        "promedio_costo_excedente" : costo_excedente.mean(),
-        "promedio_costo_anual_excedentes": float((costo_excedente.sum() * 52) / len(costo_excedente)),
-        "promedio_capacidad_trabajo" : sim.to_ndarray(resultados,"cantidad_trabajos_realizar_semana").mean(),
-        "promedio_trabajos_terciarizados" : sim.to_ndarray(resultados,"cantidad_trabajo_terciarizado").mean(),
+        "promedio_costo_excedente" : round(costo_excedente.mean(),2),
+        "promedio_costo_anual_excedentes": round((costo_excedente.sum() * 52) / len(costo_excedente)),
+        "promedio_capacidad_trabajo" : round(sim.to_ndarray(resultados,"cantidad_trabajos_realizar_semana").mean(),2),
+        "promedio_trabajos_terciarizados" : round(sim.to_ndarray(resultados,"cantidad_trabajo_terciarizado").mean(),2),
         "cantidad_trabajos_terciarizados" : sim.to_ndarray(resultados,"cantidad_trabajo_terciarizado").sum()
     }
 
