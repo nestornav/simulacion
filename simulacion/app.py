@@ -60,5 +60,20 @@ def run_simulation():
         "cantidad_trabajos_terciarizados" : sim.to_ndarray(resultados,"cantidad_trabajo_terciarizado").sum()
     }
 
+    proc_line_chart = pygal.Line(width=800, height=400, explicit_size=True)
+    proc_line_chart.title = u'Evolución de Costos Excedentes por Semana'
+    proc_line_chart.x_labels = map(str, sim.to_ndarray(resultados, "semana"))
+    proc_line_chart.add(u'Costos', costo_excedente)
+    
+    cnt = Counter(sim.to_ndarray(resultados,"cantidad_trabajo_terciarizado"))
+    proc_histogram = pygal.Bar(width=800, height=400, explicit_size=True)
+    proc_histogram.title = 'Frencuencia de Trabajos Terciarizados'
+    proc_histogram.x_labels = map(str, cnt.keys())
+    proc_histogram.add(u'Trabajos', cnt.values())
+
+
+    graphs = [proc_line_chart,proc_histogram]
+
     return render_template('index.html', resultados=resultados, media_respuesta=media_respuesta,
-        desv_respuesta=desv_respuesta, numero_semanas=numero_semanas, numero_politica=numero_politica, stats=stats)
+        desv_respuesta=desv_respuesta, numero_semanas=numero_semanas, numero_politica=numero_politica, 
+        stats=stats, graphs=graphs)
