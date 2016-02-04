@@ -10,7 +10,7 @@ ResponseRow = namedtuple(
     "ResponseRow",
     ["semana", "frenos_semana_rnd", "frenos_semana_reparar", "trabajos_atrasados_semana_anterior",
      "cantidad_trabajos_realizar_semana", "trabajos_sin_terminar_semana_acutal", "cantidad_trabajo_terciarizado",
-        "tipo_politica", "cantidad_pactado_politica", "costo_politica", "costo_excedente"])
+        "tipo_politica", "cantidad_pactado_politica", "costo_politica", "costo_excedente", "acumulado"])
 
 def numero_reparaciones(mean, std):
     return int(np.random.uniform(mean,std))
@@ -59,7 +59,7 @@ def simulate(numero_corridas, media_respuesta, desv_respuesta, tipo_politica):
     trabajos_frenos_semana_rnd, trabajos_frenos_semana, trabajos_semana_actual, capacidad_trabajo  = 0, 0, 0, 0    
     trabajos_semana_anterior, sobrante_semana, trabajo_terciarizado = 0, 0, 0
     politica_seleccionada, costo_pactado, costo_fuera_pactado, costo_total_fuera_pactado = tipo_politica, 0, 400, 0
-    cantidad_reparar_taller_pactado = 0
+    cantidad_reparar_taller_pactado, acumulador_costos = 0, 0
     respuestas = []
    # import ipdb;ipdb.set_trace()
     for iterations in xrange(numero_corridas):      
@@ -98,12 +98,14 @@ def simulate(numero_corridas, media_respuesta, desv_respuesta, tipo_politica):
             else:
                 cantidad_reparar_taller_pactado, costo_pactado, costo_total_fuera_pactado = get_costos(tipo_politica, trabajo_terciarizado, costo_fuera_pactado)
             
+            acumulador_costos += (costo_total_fuera_pactado + costo_pactado)
+
         respuesta = ResponseRow(
                 semana=iterations + 1, frenos_semana_rnd=trabajos_frenos_semana_rnd, frenos_semana_reparar=trabajos_frenos_semana,
                 trabajos_atrasados_semana_anterior=trabajos_semana_anterior, cantidad_trabajos_realizar_semana=capacidad_trabajo,
                 trabajos_sin_terminar_semana_acutal=sobrante_semana, cantidad_trabajo_terciarizado=trabajo_terciarizado, 
                 tipo_politica=politica_seleccionada, cantidad_pactado_politica=cantidad_reparar_taller_pactado, 
-                costo_politica=costo_pactado, costo_excedente=costo_total_fuera_pactado)
+                costo_politica=costo_pactado, costo_excedente=costo_total_fuera_pactado, acumulado=acumulador_costos)
 
         respuestas.append(respuesta)
 

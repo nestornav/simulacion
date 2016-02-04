@@ -29,10 +29,10 @@
         <form method="post" action="{{url_for('run_simulation')}}">
             <div class="col-md-5">
                 <h4>Par&aacute;metros para N&uacute;mero de Trabajos por Semana</h4>
-                <label>Media</label>
+                <label>A</label>
                 <input id="media_respuesta" name="media_respuesta" type="number" value="{{media_respuesta}}"/>
 
-                <label>Desviaci&oacute;n</label>
+                <label>B</label>
                 <input id="desv_respuesta" name="desv_respuesta" type="number" value="{{desv_respuesta}}"/>
             </div>
 
@@ -83,6 +83,7 @@
                     <th>Cant. Pactada</th>
                     <th>Costo Pactado</th>
                     <th>Costo Excedente</th>
+                    <th>Costo Acumulado</th>
                 </tr>
             </thead>
             <tbody>
@@ -98,7 +99,8 @@
                     <td>{{resultado.tipo_politica}}</td>
                     <td>{{resultado.cantidad_pactado_politica}}</td>
                     <td>{{resultado.costo_politica}}</td>
-                    <td>{{resultado.costo_excedente}}</td>                                    
+                    <td>{{resultado.costo_excedente}}</td>
+                    <td>{{resultado.acumulado}}</td>                                    
                 </tr>
                 {%endfor%}
             </tbody>
@@ -152,7 +154,7 @@
                 la semana siguiente. Sin embargo por política del departamento no puede mantenerse un trabajo
                 otra semana mas, debiendo tercerizar el trabajo a un taller independiente. El mismo, solo acepta
                 trabajos según cantidades previamente acordadas a principio de semana: 2 por $500, 4 por $950, 6 por
-                $1300, 8 por $1600. Los trabajos fuera de la cantidad pactada son aceptados a $400.
+                $1300, 8 por $1600. Los trabajos fuera de la cantidad pactada son aceptados a $400(se pagan por semana aunque no haya trabajos a realizar).
                 Determine la cantidad más conveniente a pactar con el taller, a fin de cubrir las posibles necesidades
                 del departamento.</p>
 
